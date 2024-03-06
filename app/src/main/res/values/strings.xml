@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Todo App</string>
+    <string name="subTitleToolbar">Developed By Naing Min Khant</string>
+    <string-array name="priority_array">
+        <item>High</item>
+        <item>Medium</item>
+        <item>Low</item>
+    </string-array>
+</resources>
