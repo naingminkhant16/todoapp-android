@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar authName = findViewById(R.id.toolbar);
-        authName.setSubtitle("Signed in as " + Auth.username);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setSubtitle("Signed in as " + Auth.username);
 
         //load spinner for priority
         loadSpinner();

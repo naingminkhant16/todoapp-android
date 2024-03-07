@@ -41,7 +41,6 @@ public class DBHelper extends SQLiteOpenHelper {
             //login fail
             return false;
         }
-
     }
 
     public boolean insertTaskData(String title, String priority) {
@@ -56,4 +55,18 @@ public class DBHelper extends SQLiteOpenHelper {
         if (result == -1) return false;
         else return true;
     }
+
+    public boolean signUpUser(String username, String password) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put("username", username);
+        contentValues.put("password", password);
+
+        long result = db.insert("users", null, contentValues);
+
+        if (result == -1) return false;
+        else return true;
+    }
+
 }
