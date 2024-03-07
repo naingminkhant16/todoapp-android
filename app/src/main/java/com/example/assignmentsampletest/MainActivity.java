@@ -1,8 +1,15 @@
 package com.example.assignmentsampletest;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -10,86 +17,60 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.example.assignmentsampletest.auth.Auth;
 import com.example.assignmentsampletest.task.Task;
 import com.example.assignmentsampletest.task.TaskAdapter;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MainActivity extends AppCompatActivity {
-    Spinner prioritySpinner;
-    String selectedPriority = "High";
-    ListView listViewTask;
-    TaskAdapter taskAdapter;
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //set toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setSubtitle("Signed in as " + Auth.username);
+        setSupportActionBar(toolbar);
+        //set drawer
+        drawerLayout = findViewById(R.id.drawer_layout);
 
-        //load spinner for priority
-        loadSpinner();
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
-        //adapter section
-        loadAdapter();
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TodoFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_todo);
+        }
     }
 
-    public void loadAdapter() {
-        listViewTask = findViewById(R.id.listViewTasks);
-        //custom test data
-        ArrayList<Task> testData = new ArrayList<>();
-        testData.add(new Task("To Learn Spring", "Medium", false));
-        testData.add(new Task("To Do Assignment", "High", false));
-        testData.add(new Task("To Read Java Book", "Low", false));
-        testData.add(new Task("Go To School", "High", true));
-        //sort data by its priority
-        List<Task> sortedData = testData.stream().sorted(Comparator.comparingInt(task -> {
-            switch (task.getPriority().toLowerCase()) {
-                case "high":
-                    return 1;
-                case "medium":
-                    return 2;
-                case "low":
-                    return 3;
-                default:
-                    return 0;
-            }
-        })).collect(Collectors.toList());
 
-        //create adapter
-        taskAdapter = new TaskAdapter(this, R.layout.task_list_item_view, sortedData);
-        //set adapter
-        listViewTask.setAdapter(taskAdapter);
-    }
-
-    public void loadSpinner() {
-        prioritySpinner = findViewById(R.id.prioritySpinner);
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.priority_array, android.R.layout.simple_spinner_item);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        prioritySpinner.setAdapter(adapter);
-
-        prioritySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedPriority = parent.getItemAtPosition(position).toString();
-
-                Toast.makeText(MainActivity.this, "Selected priority : " + selectedPriority, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.nav_todo) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TodoFragment()).commit();
+        }
+//        else if (item.getItemId() == R.id.nav_about_us) {
+//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutFragment()).commit();
+//        } else if (item.getItemId() == R.id.nav_settings) {
+//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment()).commit();
+//        }
+        else if (item.getItemId() == R.id.nav_logout) {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return false;
     }
 }
