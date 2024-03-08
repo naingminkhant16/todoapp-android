@@ -1,4 +1,4 @@
-package com.example.assignmentsampletest.task;
+package com.example.assignment.task;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,15 +14,17 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
-import com.example.assignmentsampletest.R;
+import com.example.assignment.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TaskAdapter extends ArrayAdapter<Task> {
     Context context;
     int layoutResourceId;
-    static List<Task> taskData;
+    public static List<Task> taskData = new ArrayList<>();
 
     public TaskAdapter(@NonNull Context context, int resource, @NonNull List<Task> objects) {
         super(context, resource, objects);
@@ -66,20 +68,23 @@ public class TaskAdapter extends ArrayAdapter<Task> {
     }
 
     private void setPriorityColor(TextView textView) {
-        if (textView.getText().equals("High")) textView.setTextColor(Color.RED);
-        else if (textView.getText().equals("Medium")) textView.setTextColor(Color.CYAN);
-        else if (textView.getText().equals("Low")) textView.setTextColor(Color.GRAY);
+        if (textView.getText().equals("High"))
+            textView.setTextColor(ContextCompat.getColor(context, R.color.red));
+        else if (textView.getText().equals("Medium"))
+            textView.setTextColor(ContextCompat.getColor(context, R.color.mint));
+        else if (textView.getText().equals("Low"))
+            textView.setTextColor(ContextCompat.getColor(context, R.color.secondary));
     }
 
     private void setCheckBoxDesign(CheckBox cb) {
         if (cb.isChecked()) {
             cb.setAlpha(0.3f);
             cb.setTypeface(null, Typeface.ITALIC);
-            cb.setTextColor(Color.RED);
+            cb.setTextColor(Color.GRAY);
         } else {
             cb.setAlpha(1.0f);
             cb.setTypeface(null, Typeface.BOLD);
-            cb.setTextColor(Color.BLUE);
+            cb.setTextColor(ContextCompat.getColor(context, R.color.mint));
         }
     }
 

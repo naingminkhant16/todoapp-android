@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".TodoFragment">
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,6 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="7"
+            android:backgroundTint="@color/mint"
             android:hint="Enter Task Name"
             android:textSize="20sp" />
 
@@ -27,7 +28,8 @@
             android:layout_width="99dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:backgroundTint="@color/mint" />
 
         <ImageButton
             android:id="@+id/btnAdd"

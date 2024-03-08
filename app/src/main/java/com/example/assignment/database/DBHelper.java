@@ -1,12 +1,14 @@
-package com.example.assignmentsampletest.database;
+package com.example.assignment.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
-import com.example.assignmentsampletest.auth.Auth;
+import com.example.assignment.auth.Auth;
 
 public class DBHelper extends SQLiteOpenHelper {
     public DBHelper(Context context) {
@@ -25,6 +27,28 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE if exists users");
     }
 
+    //crud task
+    public boolean insertNewTaskData(String title, String priority) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put("title", title);
+        contentValues.put("priority", priority);
+        contentValues.put("task_owner_id", Auth.user_id);
+
+        long result = db.insert("tasks", null, contentValues);
+        if (result == -1) return false;
+        else return true;
+    }
+
+    public Cursor selectTodoData() {
+        String auth_id = Integer.toString(Auth.user_id);
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM tasks WHERE task_owner_id = ? AND status = ?", new String[]{auth_id, "0"});
+        return cursor;
+    }
+
+    //login and sign up
     public boolean attemptLogin(String username, String password) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM users WHERE username = ? AND password = ?", new String[]{username, password});
@@ -36,24 +60,14 @@ public class DBHelper extends SQLiteOpenHelper {
                 Auth.username = cursor.getString(cursor.getColumnIndexOrThrow("username"));
             } while (cursor.moveToNext());
             cursor.close();
+
+            Log.i("auth_id", Integer.toString(Auth.user_id));
+            Log.i("auth_username", Auth.username);
             return true;
         } else {
             //login fail
             return false;
         }
-    }
-
-    public boolean insertTaskData(String title, String priority) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-
-        contentValues.put("title", title);
-        contentValues.put("priority", priority);
-        contentValues.put("task_owner_id", Auth.user_id);
-
-        long result = db.insert("tasks", null, contentValues);
-        if (result == -1) return false;
-        else return true;
     }
 
     public boolean signUpUser(String username, String password) {

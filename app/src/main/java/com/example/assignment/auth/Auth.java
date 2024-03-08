@@ -1,4 +1,4 @@
-package com.example.assignmentsampletest.auth;
+package com.example.assignment.auth;
 
 public class Auth {
     public static int user_id;

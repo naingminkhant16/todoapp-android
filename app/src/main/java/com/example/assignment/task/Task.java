@@ -1,4 +1,4 @@
-package com.example.assignmentsampletest.task;
+package com.example.assignment.task;
 
 public class Task {
     private int id, task_owner_id;

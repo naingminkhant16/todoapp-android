@@ -1,4 +1,4 @@
-package com.example.assignmentsampletest;
+package com.example.assignment;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -13,7 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.assignmentsampletest.database.DBHelper;
+import com.example.assignment.database.DBHelper;
 
 public class SignUpActivity extends AppCompatActivity {
     EditText username, password, confirm_password;

@@ -1,4 +1,4 @@
-package com.example.assignmentsampletest;
+package com.example.assignment;
 
 import android.content.Context;
 
