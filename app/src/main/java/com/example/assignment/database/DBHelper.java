@@ -2,7 +2,6 @@ package com.example.assignment.database;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -11,8 +10,11 @@ import android.util.Log;
 import com.example.assignment.auth.Auth;
 
 public class DBHelper extends SQLiteOpenHelper {
+    Context context;
+
     public DBHelper(Context context) {
         super(context, "TodoApp.db", null, 1);
+        this.context = context;
     }
 
     @Override
@@ -37,15 +39,51 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("task_owner_id", Auth.user_id);
 
         long result = db.insert("tasks", null, contentValues);
-        if (result == -1) return false;
-        else return true;
+        return result != -1;
     }
 
     public Cursor selectTodoData() {
         String auth_id = Integer.toString(Auth.user_id);
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM tasks WHERE task_owner_id = ? AND status = ?", new String[]{auth_id, "0"});
-        return cursor;
+        return db.rawQuery("SELECT * FROM tasks WHERE task_owner_id = ? AND status = ?", new String[]{auth_id, "0"});
+    }
+
+    public Cursor selectDoneData() {
+        String auth_id = Integer.toString(Auth.user_id);
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.rawQuery("SELECT * FROM tasks WHERE task_owner_id = ? AND status = ?", new String[]{auth_id, "1"});
+    }
+
+    public boolean updateTaskData(int id, String title, String priority) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("title", title);
+        contentValues.put("priority", priority);
+
+        Cursor cursor = db.rawQuery("SELECT * FROM tasks WHERE id = ? ", new String[]{String.valueOf(id)});
+
+        if (cursor.getCount() > 0) {
+            long result = db.update("tasks", contentValues, "id=?", new String[]{String.valueOf(id)});
+
+            cursor.close();
+            return result != -1;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean updateTaskStatus(int id, int status) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("status", status);
+        Cursor cursor = db.rawQuery("SELECT * FROM tasks WHERE id = ? ", new String[]{String.valueOf(id)});
+        if (cursor.getCount() > 0) {
+            long result = db.update("tasks", contentValues, "id=?", new String[]{String.valueOf(id)});
+            cursor.close();
+            return result != -1;
+        } else {
+            return false;
+        }
     }
 
     //login and sign up
@@ -82,5 +120,18 @@ public class DBHelper extends SQLiteOpenHelper {
         if (result == -1) return false;
         else return true;
     }
+
+    public boolean deleteTaskData(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM tasks WHERE id = ? ", new String[]{Integer.toString(id)});
+        if (cursor.getCount() > 0) {
+            long result = db.delete("tasks", "id = ?", new String[]{Integer.toString(id)});
+            cursor.close();
+
+            return result != -1;
+        }
+        return false;
+    }
+
 
 }

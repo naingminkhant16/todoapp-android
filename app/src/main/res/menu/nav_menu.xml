@@ -17,9 +17,9 @@
     <item android:title="">
         <menu>
             <item
-                android:id="@+id/nav_logout"
+                android:id="@+id/nav_exit"
                 android:icon="@drawable/logout"
-                android:title="Logout" />
+                android:title="Exit" />
         </menu>
     </item>
 </menu>

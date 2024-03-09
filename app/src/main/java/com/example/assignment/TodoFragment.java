@@ -51,6 +51,7 @@ public class TodoFragment extends Fragment {
         loadSpinner();
 
         //adapter section and get data from database
+        TaskAdapter.taskData.clear();//clear data before loading
         loadData();
 
         //add button section
@@ -86,13 +87,14 @@ public class TodoFragment extends Fragment {
         Cursor cursor = db.selectTodoData();
         if (cursor != null && cursor.moveToFirst()) {
             do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
                 String task = cursor.getString(cursor.getColumnIndexOrThrow("title"));
                 String priority = cursor.getString(cursor.getColumnIndexOrThrow("priority"));
                 int status = cursor.getInt(cursor.getColumnIndexOrThrow("status"));
 
                 boolean s = status == 1;
 
-                TaskAdapter.taskData.add(new Task(task, priority, s));
+                TaskAdapter.taskData.add(new Task(id, task, priority, s));
             } while (cursor.moveToNext());
             cursor.close();
         }
