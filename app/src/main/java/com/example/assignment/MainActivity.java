@@ -54,6 +54,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (item.getItemId() == R.id.nav_done) {
             navigationView.setCheckedItem(R.id.nav_done);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DoneFragment()).commit();
+        } else if (item.getItemId() == R.id.nav_about_us) {
+            navigationView.setCheckedItem(R.id.nav_about_us);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutDeveloperFragment()).commit();
         } else if (item.getItemId() == R.id.nav_exit) {
             TaskAdapter.taskData.clear();
             //go back to login activity

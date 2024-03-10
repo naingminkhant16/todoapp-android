@@ -3,6 +3,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="secondary">#ada9a9</color>
-    <color name="mint">#3EB489</color>
+    <!--    <color name="mint">#3EB489</color>-->
+    <!--    not mint but bored to change in every file so. it's actually navy blue-->
+    <color name="mint">#202A44</color>
     <color name="red">#ff003c</color>
 </resources>
