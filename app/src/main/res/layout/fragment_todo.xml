@@ -9,9 +9,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="10dp"
         android:orientation="horizontal">
 
         <EditText
@@ -21,14 +21,14 @@
             android:layout_weight="7"
             android:backgroundTint="@color/mint"
             android:hint="Enter Task Name"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <Spinner
             android:id="@+id/prioritySpinner"
-            android:layout_width="99dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             android:backgroundTint="@color/mint" />
 
         <ImageButton
@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1.5"
+            android:layout_weight="1"
             android:adjustViewBounds="true"
             android:background="@color/mint"
             android:padding="0dp"
@@ -59,5 +59,7 @@
         android:id="@+id/listViewTasks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:divider="@null"
+        android:dividerHeight="5dp" />
 </LinearLayout>
